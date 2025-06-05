@@ -21,6 +21,24 @@
 
 body {
   background: var(--background);
+  margin: 0;
+  padding: 0;
+  height: 100vh;
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.home-bg {
+  background: url('/images/app-bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+}
+.mint-bg {
+  background: url('/images/light-bg.gif');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
 }
