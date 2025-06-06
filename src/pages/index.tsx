@@ -1,9 +1,10 @@
 'use client';
 
-import Image from 'next/image';
+import { ConnectButton, useWallet } from '@suiet/wallet-kit';
 import { Geist, Geist_Mono } from 'next/font/google';
-import Link from 'next/link';
-import { useGetSuiper } from '@/services/useAuthServices';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -16,8 +17,14 @@ const geistMono = Geist_Mono({
 });
 
 export default function Home() {
-  const { data } = useGetSuiper();
-  console.log('Suiper Data:', data);
+  const { status, account } = useWallet();
+  const { push } = useRouter();
+  useEffect(() => {
+    if (status === 'connected' && account?.address) {
+      push('/check-bot');
+    }
+  }, [status, account?.address, push]);
+
   return (
     <div
       className={`${geistSans.className} ${geistMono.className} home-bg grid grid-rows-[20px_1fr_20px] items-start justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]`}
@@ -30,8 +37,22 @@ export default function Home() {
           height={38}
           priority
         />
-
-        <Link href='/check-bot'>
+        <ConnectButton
+          style={{
+            background: 'transparent',
+            border: 'none',
+            padding: 0,
+            cursor: 'pointer',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '250px',
+            height: '48px',
+            boxShadow: 'none',
+            transition: 'transform 0.2s ease-in-out',
+          }}
+          className='focus:outline-none disabled:cursor-not-allowed disabled:opacity-50'
+        >
           <div className='cursor-pointer'>
             <Image
               src={'/images/connect-btn-hover.png'}
@@ -42,7 +63,19 @@ export default function Home() {
               className='hover:scale-105 active:scale-95 transition-transform duration-200 ease-in-out'
             />
           </div>
-        </Link>
+        </ConnectButton>
+        {/* <Link href='/check-bot'>
+          <div className='cursor-pointer'>
+            <Image
+              src={'/images/connect-btn-hover.png'}
+              alt='Connect Button'
+              width={250}
+              height={48}
+              priority
+              className='hover:scale-105 active:scale-95 transition-transform duration-200 ease-in-out'
+            />
+          </div>
+        </Link> */}
       </main>
     </div>
   );

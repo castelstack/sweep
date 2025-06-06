@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { toast } from 'sonner';
@@ -8,13 +8,18 @@ import Link from 'next/link';
 import { Wallet, LockKeyhole } from 'lucide-react';
 import { Input } from '@/components/input';
 import { useRouter } from 'next/router';
+import { useWallet } from '@suiet/wallet-kit';
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const { account } = useWallet();
   const { push } = useRouter();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const formikRef: any = useRef(null);
+
   const formik = useFormik({
     initialValues: {
-      walletAddress: '',
+      walletAddress: account?.address || '',
       password: '',
     },
     validationSchema: Yup.object({
@@ -33,9 +38,17 @@ export default function LoginPage() {
     },
   });
 
+  useEffect(() => {
+    if (!account?.address) {
+      toast.error('Please connect your wallet to continue.');
+      formikRef.setFieldValue('walletAddress', '');
+    }
+  }, [account, formikRef]);
+
   return (
     <div className='min-h-screen flex flex-col justify-center items-center home-bg px-4'>
       <form
+        ref={formikRef}
         onSubmit={formik.handleSubmit}
         className='relative bg-gray-900/90 border border-gray-700 rounded-3xl p-8 shadow-2xl w-full max-w-md'
       >
@@ -45,6 +58,7 @@ export default function LoginPage() {
 
         <Input
           label='Wallet Address'
+          disabled={account?.address ? true : false}
           icon={<Wallet className='w-4 h-4 text-cyan-400' />}
           {...formik.getFieldProps('walletAddress')}
           error={formik.touched.walletAddress && formik.errors.walletAddress}

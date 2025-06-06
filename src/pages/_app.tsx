@@ -1,10 +1,11 @@
 import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
-import { WagmiProvider } from 'wagmi';
 
+import { WalletProvider } from '@suiet/wallet-kit';
+import '@suiet/wallet-kit/style.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'sonner';
-import { config } from '@/web3/config';
+import { AppLayout } from '@/layout/AppLayout';
 
 // Create a client
 const queryClient = new QueryClient({
@@ -17,11 +18,14 @@ const queryClient = new QueryClient({
 });
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <WagmiProvider config={config}>
+    <WalletProvider>
       <QueryClientProvider client={queryClient}>
         <Toaster theme='dark' />
-        <Component {...pageProps} />
+        <AppLayout>
+          {/* This is where the main content of the app will be rendered */}
+          <Component {...pageProps} />
+        </AppLayout>
       </QueryClientProvider>
-    </WagmiProvider>
+    </WalletProvider>
   );
 }

@@ -24,6 +24,7 @@ export const useGetNFtCollection = ({ id }: { id: string }) => {
       return response.data.data.value;
     },
     enabled: !!id,
+    refetchInterval: 1000 * 30, // 30 seconds 
   });
 };
 
@@ -41,7 +42,7 @@ export const useCreateTradeConfig = () => {
       privateKey: string;
       password: string;
     }) => {
-      const response = await axiosInstance.post('suiper/trade-config', payload);
+      const response = await axiosInstance.post('suiper/trade-config/create', payload);
       return response.data;
     },
   });

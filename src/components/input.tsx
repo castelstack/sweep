@@ -39,8 +39,9 @@ export const Input = ({
         onBlur={onBlur}
         disabled={disabled}
         className={clsx(
-          'w-full pl-10 pr-20 py-2 rounded-xl bg-gray-800 border',
+          'w-full pl-10 py-2 rounded-xl bg-gray-800 border',
           error ? 'border-red-500' : 'border-gray-700',
+          rightElement ? 'pr-20' : 'pr-4',
           'text-white focus:outline-none focus:ring-2 focus:ring-cyan-500'
         )}
       />

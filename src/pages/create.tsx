@@ -1,30 +1,34 @@
 'use client';
 
-import {
-  Loader2,
-  Wallet,
-  LockKeyhole,
-  Bot,
-  TrendingUp,
-  List as ListIcon,
-  BarChart,
-} from 'lucide-react';
-import { useState } from 'react';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import { toast } from 'sonner';
-import { useCreateTradeConfig } from '@/services/useAuthServices';
 import { Input } from '@/components/input';
+import { useCreateTradeConfig } from '@/services/useAuthServices';
+import { useWallet } from '@suiet/wallet-kit';
+import { useFormik } from 'formik';
+import {
+  BarChart,
+  Bot,
+  List as ListIcon,
+  Loader2,
+  LockKeyhole,
+  TrendingUp,
+  Wallet,
+} from 'lucide-react';
 import { useRouter } from 'next/router';
+import { useRef, useState } from 'react';
+import { toast } from 'sonner';
+import * as Yup from 'yup';
 
 export default function CreateTradeConfigCard() {
   const [showPassword, setShowPassword] = useState(false);
   const { mutateAsync, isPending } = useCreateTradeConfig();
   const { push } = useRouter();
+  const { account } = useWallet();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const formikRef: any = useRef(null);
 
   const formik = useFormik({
     initialValues: {
-      walletAddress: '',
+      walletAddress: account?.address || '',
       privateKey: '',
       collectionId: '',
       buyingPercentage: 10,
@@ -58,12 +62,15 @@ export default function CreateTradeConfigCard() {
     },
   });
 
+
+
   return (
     <div className='min-h-screen mint-bg bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center p-4'>
       <div className='relative'>
         <div className='absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-3xl blur-xl animate-pulse'></div>
 
         <form
+          ref={formikRef}
           onSubmit={formik.handleSubmit}
           className='relative bg-gray-900/90 border border-gray-700 rounded-3xl p-8 shadow-2xl min-w-[600px]'
         >
@@ -79,6 +86,7 @@ export default function CreateTradeConfigCard() {
           <div className='grid md:grid-cols-2 gap-6 mb-8'>
             <Input
               label='Wallet Address'
+              disabled={account?.address ? true : false}
               icon={<Wallet className='w-4 h-4 text-cyan-400' />}
               {...formik.getFieldProps('walletAddress')}
               error={
