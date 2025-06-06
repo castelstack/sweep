@@ -1,5 +1,11 @@
-import { type StateCreator, create } from 'zustand';
-import { createJSONStorage, devtools, persist } from 'zustand/middleware';
+import { create } from 'zustand';
+import {
+  createJSONStorage,
+  devtools,
+  persist,
+} from 'zustand/middleware';
+import type { StateCreator } from 'zustand';
+
 interface IUser {
   id: string;
   name: string;
@@ -7,6 +13,7 @@ interface IUser {
   avatarUrl?: string;
   createdAt: string;
 }
+
 interface UserState {
   currentUser: IUser | null;
 }
@@ -15,18 +22,15 @@ interface UserActions {
   setCurrentUser: (value: IUser | null) => void;
 }
 
-interface UserSelectors {}
+type UserStore = UserState & UserActions;
 
-type UserStore = UserState & UserActions & UserSelectors;
-
-type StoreMiddleware = [['zustand/devtools', { name: string }]];
-
-const store: StateCreator<UserStore, StoreMiddleware> = (set) => ({
+// The core store logic
+const store: StateCreator<UserStore> = (set) => ({
   currentUser: null,
-  setCurrentUser: (value: IUser | null) => set({ currentUser: value }),
+  setCurrentUser: (value) => set({ currentUser: value }),
 });
 
-const useUserStore = create<UserStore>()(
+export const useUserStore = create<UserStore>()(
   devtools(
     persist(store, {
       name: 'user-store',
@@ -34,5 +38,3 @@ const useUserStore = create<UserStore>()(
     })
   )
 );
-
-export { useUserStore };
