@@ -16,11 +16,9 @@ export default function BotConfigPage() {
   const password = query.pwd ?? '';
 
   // Fetch bot config
-  const { data, isLoading, isError, error, refetch } = useGetTradeConfig(
-    walletAddress as string,
-    password as string
-  );
-  console.log('Suiper Data:', data);
+  const { data, isLoading, isError, error, refetch, isFetching } =
+    useGetTradeConfig(walletAddress as string, password as string);
+
   useEffect(() => {
     if (!walletAddress || !password) {
       toast.error('Missing wallet address or password in URL');
@@ -54,7 +52,7 @@ export default function BotConfigPage() {
                 onClick={() => refetch()}
                 className={clsx(
                   'text-amber-500 m-2 cursor-pointer',
-                  isLoading && 'animate-spin'
+                  isFetching && 'animate-spin'
                 )}
               />
             </div>

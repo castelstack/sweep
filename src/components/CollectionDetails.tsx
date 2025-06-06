@@ -1,7 +1,8 @@
 'use client';
 
 import { useGetNFtCollection } from '@/services/useAuthServices';
-import { BadgeCheck, Loader2 } from 'lucide-react';
+import clsx from 'clsx';
+import { BadgeCheck, Loader2, RefreshCcw } from 'lucide-react';
 import Image from 'next/image';
 
 export default function NFTCollectionCard({
@@ -9,9 +10,11 @@ export default function NFTCollectionCard({
 }: {
   collectionId: string;
 }) {
-  const { data, isLoading, isError } = useGetNFtCollection({
-    id: collectionId,
-  });
+  const { data, isLoading, isError, isFetching, refetch } = useGetNFtCollection(
+    {
+      id: collectionId,
+    }
+  );
   console.log(data);
   if (!collectionId) {
     return (
@@ -54,13 +57,21 @@ export default function NFTCollectionCard({
 
   return (
     <div className='relative bg-gray-900/90 border border-gray-700 rounded-3xl p-8 shadow-2xl w-full'>
+      <RefreshCcw
+        size={18}
+        onClick={() => refetch()}
+        className={clsx(
+          'text-amber-500 m-2 cursor-pointer absolute top-4 right-4',
+          isFetching && 'animate-spin'
+        )}
+      />
       <div className='flex items-center gap-4 mb-6'>
         <Image
           src={cover_url}
           alt={title}
-          width={64}
+          width={100}
           height={64}
-          className='rounded-xl border border-gray-700 object-cover'
+          className='rounded-md border border-gray-700 object-cover'
         />
         <div>
           <h1 className='text-3xl font-bold text-white flex items-center gap-2'>
