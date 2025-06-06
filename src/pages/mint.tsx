@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-export const Mint = () => {
-  return (
-    <div>Mint</div>
-  )
-}
+const Mint = () => {
+  return <div>Mint</div>;
+};
+
+export default Mint;
