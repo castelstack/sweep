@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { Geist, Geist_Mono } from 'next/font/google';
 import Link from 'next/link';
+import { useGetSuiper } from '@/services/useAuthServices';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -15,6 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export default function Home() {
+  const { data } = useGetSuiper();
+  console.log('Suiper Data:', data);
   return (
     <div
       className={`${geistSans.className} ${geistMono.className} home-bg grid grid-rows-[20px_1fr_20px] items-start justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]`}
@@ -28,7 +31,7 @@ export default function Home() {
           priority
         />
 
-        <Link href='/mint'>
+        <Link href='/check-bot'>
           <div className='cursor-pointer'>
             <Image
               src={'/images/connect-btn-hover.png'}

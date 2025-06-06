@@ -42,3 +42,23 @@ body {
   background-repeat: no-repeat;
   height: 100vh;
 }
+
+.slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #06b6d4, #3b82f6);
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+  }
+
+  .slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #06b6d4, #3b82f6);
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+  }
