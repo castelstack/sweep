@@ -7,7 +7,7 @@ export const AppLayout = ({ children }: { children: React.ReactNode }) => {
   const { status, account } = useWallet();
   const { push } = useRouter();
   useEffect(() => {
-     if (status === 'disconnected') {
+     if (status === 'disconnected' && !account?.address) {
       push('/');
     }
   }, [status, account?.address, push]);

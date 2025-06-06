@@ -4,6 +4,7 @@ import NFTCollectionCard from '@/components/CollectionDetails';
 import { useGetTradeConfig } from '@/services/useAuthServices';
 import clsx from 'clsx';
 import { RefreshCcw } from 'lucide-react';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
@@ -86,6 +87,7 @@ export default function BotConfigPage() {
                 label='Updated At'
                 value={new Date(data.updatedAt).toLocaleString()}
               />
+              <Link href={`/bots/${query.walletAddress}/logs`} className='col-span-full text-center underline text-cyan-500'>View Logs</Link>
             </div>
           </div>
         )}

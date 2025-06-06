@@ -19,12 +19,47 @@ export const useGetNFtCollection = ({ id }: { id: string }) => {
   return useQuery({
     queryKey: ['COLLECTION', id],
     queryFn: async () => {
-      const response = await axiosInstance.get('suiper/nft/collection'+`/${id}`);
-      console.log('Response data:', response.data.data.value);
+      const response = await axiosInstance.get(
+        'suiper/nft/collection' + `/${id}`
+      );
       return response.data.data.value;
     },
     enabled: !!id,
-    refetchInterval: 1000 * 30, // 30 seconds 
+    refetchInterval: 1000 * 30, // 30 seconds
+  });
+};
+export const useGetUserTradeLog = ({
+  walletAddress,
+}: {
+  walletAddress: string;
+}) => {
+  return useQuery({
+    queryKey: ['TRADE_LOG', walletAddress],
+    queryFn: async () => {
+      const response = await axiosInstance.get(
+        'suiper/trade-log/wallet?walletAddress=' + `${walletAddress}`
+      );
+      return response.data.data;
+    },
+    enabled: !!walletAddress,
+    refetchInterval: 1000 * 30, // 30 seconds
+  });
+};
+export const useGetCollectionTradeLog = ({
+  collectionId,
+}: {
+  collectionId: string;
+}) => {
+  return useQuery({
+    queryKey: ['TRADE_LOG', collectionId],
+    queryFn: async () => {
+      const response = await axiosInstance.post('suiper/trade-log/collection', {
+        collectionId,
+      });
+      return response.data.data;
+    },
+    enabled: !!collectionId,
+    refetchInterval: 1000 * 30, // 30 seconds
   });
 };
 
@@ -42,7 +77,10 @@ export const useCreateTradeConfig = () => {
       privateKey: string;
       password: string;
     }) => {
-      const response = await axiosInstance.post('suiper/trade-config/create', payload);
+      const response = await axiosInstance.post(
+        'suiper/trade-config/create',
+        payload
+      );
       return response.data;
     },
   });

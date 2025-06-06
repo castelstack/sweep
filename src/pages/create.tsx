@@ -86,7 +86,7 @@ export default function CreateTradeConfigCard() {
           <div className='grid md:grid-cols-2 gap-6 mb-8'>
             <Input
               label='Wallet Address'
-              disabled={account?.address ? true : false}
+              // disabled={account?.address ? true : false}
               icon={<Wallet className='w-4 h-4 text-cyan-400' />}
               {...formik.getFieldProps('walletAddress')}
               error={

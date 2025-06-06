@@ -4,6 +4,7 @@ import { useGetNFtCollection } from '@/services/useAuthServices';
 import clsx from 'clsx';
 import { BadgeCheck, Loader2, RefreshCcw } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function NFTCollectionCard({
   collectionId,
@@ -56,7 +57,7 @@ export default function NFTCollectionCard({
   } = data;
 
   return (
-    <div className='relative bg-gray-900/90 border border-gray-700 rounded-3xl p-8 shadow-2xl w-full'>
+    <div className='relative bg-gray-900/90 grid border border-gray-700 rounded-3xl p-8 shadow-2xl w-full'>
       <RefreshCcw
         size={18}
         onClick={() => refetch()}
@@ -105,6 +106,12 @@ export default function NFTCollectionCard({
           <p className='font-semibold'>{(volume / 1e9).toFixed(2)} SUI</p>
         </div>
       </div>
+      <Link
+        href={`/collection/${collectionId}/logs`}
+        className='col-span-full text-center underline text-cyan-500 mt-4'
+      >
+        View Logs
+      </Link>
     </div>
   );
 }
