@@ -15,6 +15,17 @@ export const useGetSuiper = () => {
     },
   });
 };
+export const useGetNFtCollection = ({ id }: { id: string }) => {
+  return useQuery({
+    queryKey: ['COLLECTION', id],
+    queryFn: async () => {
+      const response = await axiosInstance.get('suiper/nft/collection'+`/${id}`);
+      console.log('Response data:', response.data.data.value);
+      return response.data.data.value;
+    },
+    enabled: !!id,
+  });
+};
 
 /**
  * POST suiper/trade-config
@@ -30,10 +41,7 @@ export const useCreateTradeConfig = () => {
       privateKey: string;
       password: string;
     }) => {
-      const response = await axiosInstance.post(
-        'suiper/trade-config',
-        payload
-      );
+      const response = await axiosInstance.post('suiper/trade-config', payload);
       return response.data;
     },
   });
@@ -46,8 +54,9 @@ export const useGetTradeConfig = (walletAddress: string, password: string) => {
   return useQuery({
     queryKey: ['TRADE_CONFIG', walletAddress],
     queryFn: async () => {
-      const response = await axiosInstance.get('suiper/trade-config', {
-        params: { walletAddress, password },
+      const response = await axiosInstance.post('suiper/trade-config', {
+        walletAddress,
+        password,
       });
       return response.data.data;
     },
