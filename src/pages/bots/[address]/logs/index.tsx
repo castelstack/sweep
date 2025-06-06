@@ -13,7 +13,7 @@ export default function LogsPage() {
 
   return (
     <div className='min-h-screen flex flex-col items-center justify-center mint-bg px-4 py-8'>
-      <div className='bg-gray-900/90 border border-gray-700 rounded-3xl p-8 shadow-2xl w-full max-w-2xl'>
+      <div className='bg-gray-900/90 border border-gray-700 rounded-3xl p-8 shadow-2xl w-full max-w-4xl'>
         {isLoading && (
           <p className='text-center text-cyan-400 animate-pulse'>Loading...</p>
         )}
